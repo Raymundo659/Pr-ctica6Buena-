@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// ESTRUCTURA: mantiene juntos los datos de distinto tipo
+struct Materia {
+    string nombre;
+    int creditos;
+    bool aprobada;
+};
+
+int main() {
+    // ARREGLO: muchos datos bajo un solo nombre
+    Materia expediente[3];
+    
+    int respuesta_aprobada; // Variable auxiliar para leer el booleano
+
+    cout << "--- INGRESO DE DATOS DEL EXPEDIENTE ---" << endl;
+
+    // NUEVO: Ciclo for para pedir los datos al usuario
+    for (int i = 0; i < 3; i++) {
+        cout << "\nDatos para la materia " << i + 1 << ":" << endl;
+        
+        cout << "Nombre de la materia: ";
+        // cin.ignore() es clave aqui si antes leimos numeros, 
+        // pero como es la primera lectura, o venimos de leer un numero, limpia el buffer.
+        if(i > 0) cin.ignore(); 
+        getline(cin, expediente[i].nombre);
+
+        cout << "Creditos (numero): ";
+        cin >> expediente[i].creditos;
+
+        cout << "Esta aprobada? (1 para Si, 0 para No): ";
+        cin >> respuesta_aprobada;
+        
+        // Convertimos el 1 o 0 a booleano true/false
+        if (respuesta_aprobada == 1) {
+            expediente[i].aprobada = true;
+        } else {
+            expediente[i].aprobada = false;
+        }
+    }
+
+    // MATRIZ: dibuja el mapa del plan de estudios (se mantiene estatico por ahora)
+    int mapa[3][3] = {
+        {0, 1, 1},
+        {0, 0, 0},
+        {0, 0, 0}
+    };
+
+    // RECORRIDO: el for camina por los indices (sin cambios)
+    int suma = 0;
+    for (int i = 0; i < 3; i++) {
+        if (expediente[i].aprobada) {
+            suma = suma + expediente[i].creditos;   // acumula
+        }
+    }
+    
+    cout << "\n--- UNIVERSIDAD UNIDATA: EXPEDIENTE ---" << endl;
+    cout << "Creditos aprobados totales: " << suma << endl;
+    
+    cout << "\n--- MAPA DE LA TIRA DE MATERIAS ---" << endl;
+
+    // RECORRIDO DOBLE: los for caminan por renglones y columnas (sin cambios)
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (mapa[i][j] == 1) {
+                cout << expediente[i].nombre << " -> abre -> " << expediente[j].nombre << endl;
+            }
+        }
+    }
+
+    return 0;
+}
