@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// ESTRUCTURA: mantiene juntos los datos de distinto tipo
+struct Materia {
+    string nombre;
+    int creditos;
+    bool aprobada;
+};
+
+int main() {
+    // ARREGLO: muchos datos bajo un solo nombre
+    Materia expediente[3];
+
+    // Asignación de datos (cadenas, enteros y booleanos)
+    expediente[0].nombre = "Algebra";
+    expediente[0].creditos = 8;
+    expediente[0].aprobada = true;
+
+    expediente[1].nombre = "Calculo I";
+    expediente[1].creditos = 10;
+    expediente[1].aprobada = true;
+
+    expediente[2].nombre = "Estadistica";
+    expediente[2].creditos = 6;
+    expediente[2].aprobada = false;
+
+    // MATRIZ: dibuja el mapa del plan de estudios
+    // 1 = la fila i le abre la puerta a la columna j
+    int mapa[3][3] = {
+        {0, 1, 1},  // [0] Algebra abre a Calculo I y Estadistica
+        {0, 0, 0},  // [1] Calculo I no abre a ninguna
+        {0, 0, 0}   // [2] Estadistica no abre a ninguna
+    };
+
+    // RECORRIDO: el for camina por los indices
+    int suma = 0;
+    for (int i = 0; i < 3; i++) {
+        if (expediente[i].aprobada) {
+            suma = suma + expediente[i].creditos;   // acumula
+        }
+    }
+    
+    cout << "--- UNIVERSIDAD UNIDATA: EXPEDIENTE ---" << endl;
+    cout << "Creditos aprobados totales: " << suma << endl;
+    
+    cout << "\n--- MAPA DE LA TIRA DE MATERIAS ---" << endl;
+
+    // RECORRIDO DOBLE: los for caminan por renglones y columnas
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (mapa[i][j] == 1) {
+                cout << expediente[i].nombre << " -> abre -> " << expediente[j].nombre << endl;
+            }
+        }
+    }
+
+    return 0;
+}
